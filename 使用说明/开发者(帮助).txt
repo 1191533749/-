@@ -1,0 +1,54 @@
+
+慎用！开发者使用！
+
+🟢用户创建又删除以后，用户列表id不整齐乱了怎么办？
+
+✅ 示操作步骤：
+	1.	登录你的宝塔面板，进入数据库管理（phpMyAdmin）；
+	2.	找到数据库 hmd_apj____；
+	3.	找到 users 表；
+	4.	点击上方的 “SQL”；
+	5.	执行以下语句：
+ALTER TABLE users AUTO_INCREMENT = 3;
+
+说明：如果要从4、或者5、其他的顺序开始则替换3数值。
+
+
+🟢主页模块ID乱不按顺序排列怎么办？
+
+✅【详细步骤】
+
+第一步：进入 phpMyAdmin
+	1.	打开你的宝塔面板；
+	2.	点击左侧数据库；
+	3.	找到 hmd_apj____ 这个数据库（你的黑名单平台数据库）；
+	4.	点击右侧“管理”打开 phpMyAdmin；
+	5.	登录进去之后选择这个数据库。
+
+第二步：关闭外键约束检查（非常关键）
+	1.	点击顶部菜单中的 SQL；
+	2.	在 SQL 输入框上方，找到“启用外键约束”那一项（Enable foreign key checks）；
+	3.	取消勾选 ✅ 这项（去掉 √）；
+	•	⚠️ 如果你不取消，会即使写了 SET FOREIGN_KEY_CHECKS = 0; 也不生效！
+	
+第三步：粘贴并执行以下 SQL 语句	：
+
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE blacklists;
+TRUNCATE TABLE modules;
+SET FOREIGN_KEY_CHECKS = 1;
+
+作用解释：
+	•	SET FOREIGN_KEY_CHECKS = 0;：关闭外键检查；
+	•	TRUNCATE TABLE blacklists;：清空黑名单数据；
+	•	TRUNCATE TABLE modules;：清空模块数据；
+	•	SET FOREIGN_KEY_CHECKS = 1;：恢复外键检查状态。
+
+
+
+
+
+
+
+
+
